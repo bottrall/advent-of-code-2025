@@ -1,0 +1,16 @@
+{
+  "name": "advent-of-code-2025",
+  "version": "1.0.0",
+  "description": "My solutions to Advent of Code 2025 challenges",
+  "type": "module",
+  "scripts": {
+    "node": "node src/index.ts"
+  },
+  "author": "Jake Bottrall",
+  "license": "MIT",
+  "packageManager": "pnpm@10.20.0",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3"
+  }
+}
