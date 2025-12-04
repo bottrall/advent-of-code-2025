@@ -1,0 +1,61 @@
+{
+  "runtime": "deno",
+  "lastUpdated": "2025-12-04T04:35:21.197Z",
+  "iterations": 100,
+  "results": [
+    {
+      "day": "day-1",
+      "runtime": "deno",
+      "partOne": {
+        "minMs": 0.2043,
+        "p50Ms": 0.2245,
+        "p75Ms": 0.2272,
+        "p99Ms": 2.205,
+        "maxMs": 2.205
+      },
+      "partTwo": {
+        "minMs": 0.2062,
+        "p50Ms": 0.2105,
+        "p75Ms": 0.2143,
+        "p99Ms": 0.2617,
+        "maxMs": 0.2617
+      }
+    },
+    {
+      "day": "day-2",
+      "runtime": "deno",
+      "partOne": {
+        "minMs": 37.0935,
+        "p50Ms": 38.2755,
+        "p75Ms": 38.5461,
+        "p99Ms": 40.9916,
+        "maxMs": 40.9916
+      },
+      "partTwo": {
+        "minMs": 1256.9468,
+        "p50Ms": 1271.0603,
+        "p75Ms": 1274.1225,
+        "p99Ms": 1391.9386,
+        "maxMs": 1391.9386
+      }
+    },
+    {
+      "day": "day-3",
+      "runtime": "deno",
+      "partOne": {
+        "minMs": 0.1765,
+        "p50Ms": 0.1886,
+        "p75Ms": 0.1916,
+        "p99Ms": 0.5187,
+        "maxMs": 0.5187
+      },
+      "partTwo": {
+        "minMs": 0.279,
+        "p50Ms": 0.2875,
+        "p75Ms": 0.2953,
+        "p99Ms": 0.4842,
+        "maxMs": 0.4842
+      }
+    }
+  ]
+}

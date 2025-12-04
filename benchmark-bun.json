@@ -1,0 +1,61 @@
+{
+  "runtime": "bun",
+  "lastUpdated": "2025-12-04T04:33:02.634Z",
+  "iterations": 100,
+  "results": [
+    {
+      "day": "day-1",
+      "runtime": "bun",
+      "partOne": {
+        "minMs": 0.2264,
+        "p50Ms": 0.2336,
+        "p75Ms": 0.2447,
+        "p99Ms": 0.6062,
+        "maxMs": 0.6062
+      },
+      "partTwo": {
+        "minMs": 0.2252,
+        "p50Ms": 0.244,
+        "p75Ms": 0.2479,
+        "p99Ms": 0.7452,
+        "maxMs": 0.7452
+      }
+    },
+    {
+      "day": "day-2",
+      "runtime": "bun",
+      "partOne": {
+        "minMs": 68.275,
+        "p50Ms": 72.6971,
+        "p75Ms": 73.9954,
+        "p99Ms": 75.3346,
+        "maxMs": 75.3346
+      },
+      "partTwo": {
+        "minMs": 337.1639,
+        "p50Ms": 356.6514,
+        "p75Ms": 359.6199,
+        "p99Ms": 362.9647,
+        "maxMs": 362.9647
+      }
+    },
+    {
+      "day": "day-3",
+      "runtime": "bun",
+      "partOne": {
+        "minMs": 0.1671,
+        "p50Ms": 0.1851,
+        "p75Ms": 0.1884,
+        "p99Ms": 0.4254,
+        "maxMs": 0.4254
+      },
+      "partTwo": {
+        "minMs": 0.2815,
+        "p50Ms": 0.3086,
+        "p75Ms": 0.3154,
+        "p99Ms": 0.5705,
+        "maxMs": 0.5705
+      }
+    }
+  ]
+}

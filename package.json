@@ -4,7 +4,7 @@
   "description": "My solutions to Advent of Code 2025 challenges",
   "type": "module",
   "scripts": {
-    "node": "node src/index.ts"
+    "benchmark": "chmod +x run-benchmarks.sh && ./run-benchmarks.sh"
   },
   "author": "Jake Bottrall",
   "license": "MIT",
@@ -12,5 +12,8 @@
   "devDependencies": {
     "@types/node": "^24.10.1",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "prettier": "^3.7.4"
   }
 }

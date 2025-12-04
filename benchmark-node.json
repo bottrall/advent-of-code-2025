@@ -1,0 +1,61 @@
+{
+  "runtime": "node",
+  "lastUpdated": "2025-12-04T04:32:17.472Z",
+  "iterations": 100,
+  "results": [
+    {
+      "day": "day-1",
+      "runtime": "node",
+      "partOne": {
+        "minMs": 0.1951,
+        "p50Ms": 0.2075,
+        "p75Ms": 0.2156,
+        "p99Ms": 0.3972,
+        "maxMs": 0.3972
+      },
+      "partTwo": {
+        "minMs": 0.1968,
+        "p50Ms": 0.2155,
+        "p75Ms": 0.2233,
+        "p99Ms": 0.2751,
+        "maxMs": 0.2751
+      }
+    },
+    {
+      "day": "day-2",
+      "runtime": "node",
+      "partOne": {
+        "minMs": 40.8736,
+        "p50Ms": 41.8526,
+        "p75Ms": 42.1292,
+        "p99Ms": 45.4916,
+        "maxMs": 45.4916
+      },
+      "partTwo": {
+        "minMs": 1362.5151,
+        "p50Ms": 1372.7818,
+        "p75Ms": 1376.4121,
+        "p99Ms": 1402.8715,
+        "maxMs": 1402.8715
+      }
+    },
+    {
+      "day": "day-3",
+      "runtime": "node",
+      "partOne": {
+        "minMs": 0.1635,
+        "p50Ms": 0.1886,
+        "p75Ms": 0.1897,
+        "p99Ms": 0.7849,
+        "maxMs": 0.7849
+      },
+      "partTwo": {
+        "minMs": 0.2847,
+        "p50Ms": 0.2948,
+        "p75Ms": 0.3026,
+        "p99Ms": 0.665,
+        "maxMs": 0.665
+      }
+    }
+  ]
+}
