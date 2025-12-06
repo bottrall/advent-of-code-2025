@@ -1,6 +1,6 @@
 {
   "runtime": "deno",
-  "lastUpdated": "2025-12-06T16:49:31.472Z",
+  "lastUpdated": "2025-12-06T18:35:36.878Z",
   "iterations": 5000,
   "results": [
     {
@@ -73,6 +73,24 @@
         "p75Ms": 18.3042,
         "p99Ms": 18.8091,
         "maxMs": 21.3325
+      }
+    },
+    {
+      "day": "day-5",
+      "runtime": "deno",
+      "partOne": {
+        "minMs": 0.1947,
+        "p50Ms": 0.2082,
+        "p75Ms": 0.2163,
+        "p99Ms": 0.3362,
+        "maxMs": 1.463
+      },
+      "partTwo": {
+        "minMs": 0.048,
+        "p50Ms": 0.0584,
+        "p75Ms": 0.0596,
+        "p99Ms": 0.0705,
+        "maxMs": 0.2036
       }
     }
   ]
