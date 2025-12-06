@@ -94,7 +94,7 @@ function loadExistingResults(filename: string): Map<string, BenchmarkResult> {
   return map;
 }
 
-const ITERATIONS = 100;
+const ITERATIONS = 5000;
 
 async function benchmarkDay(
   dayFile: string,
@@ -132,12 +132,6 @@ function benchmarkFunction(
 ) {
   const times: number[] = [];
 
-  // Warmup runs
-  for (let i = 0; i < 5; i++) {
-    fn();
-  }
-
-  // Actual benchmark runs
   for (let i = 0; i < iterations; i++) {
     onProgress?.(i + 1, iterations);
     const start = performance.now();
