@@ -1,6 +1,6 @@
 {
   "runtime": "bun",
-  "lastUpdated": "2025-12-04T04:33:02.634Z",
+  "lastUpdated": "2025-12-06T16:38:43.497Z",
   "iterations": 100,
   "results": [
     {
@@ -55,6 +55,24 @@
         "p75Ms": 0.3154,
         "p99Ms": 0.5705,
         "maxMs": 0.5705
+      }
+    },
+    {
+      "day": "day-4",
+      "runtime": "bun",
+      "partOne": {
+        "minMs": 0.8243,
+        "p50Ms": 0.9103,
+        "p75Ms": 0.9701,
+        "p99Ms": 2.3303,
+        "maxMs": 2.3303
+      },
+      "partTwo": {
+        "minMs": 18.3965,
+        "p50Ms": 18.7763,
+        "p75Ms": 18.873,
+        "p99Ms": 19.1878,
+        "maxMs": 19.1878
       }
     }
   ]
