@@ -88,11 +88,9 @@ export function partTwo(input: string) {
       }
     )
     .history.pop()!
-    .reduce(
-      (product, junctionBoxIndex) =>
-        junctionBoxes[junctionBoxIndex]![0] * product,
-      1
-    );
+    .reduce((product, junctionBoxIndex) => {
+      return junctionBoxes[junctionBoxIndex]![0] * product;
+    }, 1);
 }
 
 function distance(a: Point, b: Point) {
