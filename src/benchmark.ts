@@ -94,7 +94,7 @@ function loadExistingResults(filename: string): Map<string, BenchmarkResult> {
   return map;
 }
 
-const ITERATIONS = 5000;
+const ITERATIONS = 1000;
 
 async function benchmarkDay(
   dayFile: string,

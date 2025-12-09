@@ -1,7 +1,7 @@
 {
   "runtime": "node",
-  "lastUpdated": "2025-12-07T19:34:47.501Z",
-  "iterations": 5000,
+  "lastUpdated": "2025-12-09T04:26:28.760Z",
+  "iterations": 1000,
   "results": [
     {
       "day": "day-1",
@@ -127,6 +127,24 @@
         "p75Ms": 1.2626,
         "p99Ms": 1.4957,
         "maxMs": 2.6315
+      }
+    },
+    {
+      "day": "day-8",
+      "runtime": "node",
+      "partOne": {
+        "minMs": 129.854,
+        "p50Ms": 136.3356,
+        "p75Ms": 143.4639,
+        "p99Ms": 185.308,
+        "maxMs": 204.8315
+      },
+      "partTwo": {
+        "minMs": 155.9023,
+        "p50Ms": 169.7605,
+        "p75Ms": 175.7789,
+        "p99Ms": 205.1248,
+        "maxMs": 234.6264
       }
     }
   ]
