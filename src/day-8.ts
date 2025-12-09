@@ -98,7 +98,7 @@ function distance(a: Point, b: Point) {
   const dy = a[1] - b[1];
   const dz = a[2] - b[2];
 
-  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+  return dx * dx + dy * dy + dz * dz;
 }
 
 function findRootJunctionBox(connections: number[], index: number): number {
