@@ -46,22 +46,6 @@ export function partOne(input: string) {
     .reduce((prod, s) => prod * s, 1);
 }
 
-function distance(a: Point, b: Point) {
-  const dx = a[0] - b[0];
-  const dy = a[1] - b[1];
-  const dz = a[2] - b[2];
-
-  return Math.sqrt(dx * dx + dy * dy + dz * dz);
-}
-
-function findRootJunctionBox(connections: number[], index: number) {
-  if (connections[index] === index) {
-    return connections[index];
-  }
-
-  return findRootJunctionBox(connections, connections[index]!);
-}
-
 export function partTwo(input: string) {
   const junctionBoxes = input
     .split("\n")
@@ -109,6 +93,24 @@ export function partTwo(input: string) {
         junctionBoxes[junctionBoxIndex]![0] * product,
       1
     );
+}
+
+function distance(a: Point, b: Point) {
+  const dx = a[0] - b[0];
+  const dy = a[1] - b[1];
+  const dz = a[2] - b[2];
+
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+function findRootJunctionBox(connections: number[], index: number): number {
+  if (connections[index] === index) {
+    return connections[index];
+  }
+
+  connections[index] = findRootJunctionBox(connections, connections[index]!);
+
+  return connections[index];
 }
 
 if (import.meta.url === `file://${process.argv.at(1)}`) {
