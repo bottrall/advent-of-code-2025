@@ -117,7 +117,7 @@ export function partTwo(input: string) {
 
       return acc;
     },
-    new Map<number, Coordinate[]>()
+    new Map<number, Coordinate[]>(),
   );
 
   const pairs = redTiles
@@ -129,7 +129,7 @@ export function partTwo(input: string) {
 
         return acc;
       },
-      []
+      [],
     )
     .sort((a, b) => b.area - a.area);
 
@@ -150,7 +150,7 @@ export function partTwo(input: string) {
 function isContained(
   scanlineMap: Map<number, Coordinate[]>,
   tileA: Coordinate,
-  tileB: Coordinate
+  tileB: Coordinate,
 ) {
   const minX = Math.min(tileA[0], tileB[0]);
   const maxX = Math.max(tileA[0], tileB[0]);

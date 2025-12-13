@@ -65,10 +65,10 @@ async function runBenchmarks(runtime: string) {
     results.push(result);
 
     console.log(
-      `    Part 1: ${result.partOne.p50Ms}ms (min: ${result.partOne.minMs}ms, p99: ${result.partOne.p99Ms}ms, max: ${result.partOne.maxMs}ms)`
+      `    Part 1: ${result.partOne.p50Ms}ms (min: ${result.partOne.minMs}ms, p99: ${result.partOne.p99Ms}ms, max: ${result.partOne.maxMs}ms)`,
     );
     console.log(
-      `    Part 2: ${result.partTwo.p50Ms}ms (min: ${result.partTwo.minMs}ms, p99: ${result.partTwo.p99Ms}ms, max: ${result.partTwo.maxMs}ms)`
+      `    Part 2: ${result.partTwo.p50Ms}ms (min: ${result.partTwo.minMs}ms, p99: ${result.partTwo.p99Ms}ms, max: ${result.partTwo.maxMs}ms)`,
     );
   }
 
@@ -99,7 +99,7 @@ const ITERATIONS = 1000;
 async function benchmarkDay(
   dayFile: string,
   runtime: string,
-  onProgress?: (part: string, current: number, total: number) => void
+  onProgress?: (part: string, current: number, total: number) => void,
 ) {
   const module: DayModule = await import(`./${dayFile}`);
   const inputFile = dayFile.replace(".ts", ".input.txt");
@@ -108,13 +108,13 @@ async function benchmarkDay(
   const partOneResults = benchmarkFunction(
     () => module.partOne(input),
     ITERATIONS,
-    (current, total) => onProgress?.("Part 1", current, total)
+    (current, total) => onProgress?.("Part 1", current, total),
   );
 
   const partTwoResults = benchmarkFunction(
     () => module.partTwo(input),
     ITERATIONS,
-    (current, total) => onProgress?.("Part 2", current, total)
+    (current, total) => onProgress?.("Part 2", current, total),
   );
 
   return {
@@ -128,7 +128,7 @@ async function benchmarkDay(
 function benchmarkFunction(
   fn: () => unknown,
   iterations: number,
-  onProgress?: (current: number, total: number) => void
+  onProgress?: (current: number, total: number) => void,
 ) {
   const times: number[] = [];
 

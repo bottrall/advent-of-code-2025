@@ -39,7 +39,7 @@ export function partOne(input: string) {
       {
         connections: Array.from(junctionBoxes, (_, i) => i),
         sizes: Array(junctionBoxes.length).fill(1),
-      }
+      },
     )
     .sizes.sort((a, b) => b - a)
     .slice(0, 3)
@@ -85,7 +85,7 @@ export function partTwo(input: string) {
         connections: Array.from(junctionBoxes, (_, i) => i),
         sizes: Array(junctionBoxes.length).fill(1),
         history: [] as Array<[number, number]>,
-      }
+      },
     )
     .history.pop()!
     .reduce((product, junctionBoxIndex) => {

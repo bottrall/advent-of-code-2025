@@ -37,7 +37,7 @@ export function partTwo(input: string) {
 function timeline(
   lines: string[],
   beamIndex: number,
-  cache = new Map<string, number>()
+  cache = new Map<string, number>(),
 ) {
   const cacheKey = `${beamIndex}-${lines.length}`;
 

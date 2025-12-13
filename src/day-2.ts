@@ -49,7 +49,7 @@ export function partTwo(input: string) {
         }
 
         const segments = Array.from({ length: str.length / j }, (_, k) =>
-          str.slice(k * j, (k + 1) * j)
+          str.slice(k * j, (k + 1) * j),
         );
 
         const allEqual = segments.every((seg) => seg === segments.at(0));

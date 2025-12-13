@@ -74,7 +74,7 @@ async function main() {
 
 async function generateReport(
   resultsByDay: Map<string, BenchmarkResult[]>,
-  iterations: number
+  iterations: number,
 ) {
   let markdown = `# Advent of Code 2025 - Benchmark Results\n\n`;
   markdown += `Last updated: ${new Date().toLocaleString()}\n`;
