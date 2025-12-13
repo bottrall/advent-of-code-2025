@@ -7,43 +7,43 @@ export function partOne(input: string) {
     .split("\n")
     .map((line) => line.split(",").map(Number) as Point);
 
-  return junctionBoxes
-    .reduce<Point[]>((acc, junctionBoxA, i) => {
-      junctionBoxes.slice(i + 1).forEach((junctionBoxB, j) => {
-        acc.push([i, i + 1 + j, distance(junctionBoxA, junctionBoxB)]);
+  const pairs = junctionBoxes
+    .flatMap((junctionBoxA, indexA) => {
+      return junctionBoxes.slice(indexA + 1).map((junctionBoxB, indexB) => {
+        return [
+          indexA,
+          indexA + 1 + indexB,
+          distance(junctionBoxA, junctionBoxB),
+        ] as const;
       });
+    })
+    .toSorted((a, b) => a[2] - b[2])
+    .splice(0, 1000);
 
-      return acc;
-    }, [])
-    .sort((a, b) => a[2] - b[2])
-    .splice(0, 1000)
-    .reduce(
-      (circuits, [junctionBoxA, junctionBoxB]) => {
-        const rootX = findRootJunctionBox(circuits.connections, junctionBoxA);
-        const rootY = findRootJunctionBox(circuits.connections, junctionBoxB);
+  const connections = Array.from(junctionBoxes, (_, index) => index);
+  const sizes = Array.from(junctionBoxes, () => 1);
 
-        if (rootX === rootY) {
-          return circuits;
-        }
+  for (const [junctionBoxA, junctionBoxB] of pairs) {
+    const rootX = findRootJunctionBox(connections, junctionBoxA);
+    const rootY = findRootJunctionBox(connections, junctionBoxB);
 
-        if (circuits.sizes[rootX] < circuits.sizes[rootY]) {
-          circuits.connections[rootX] = rootY;
-          circuits.sizes[rootY] += circuits.sizes[rootX];
-        } else {
-          circuits.connections[rootY] = rootX;
-          circuits.sizes[rootX] += circuits.sizes[rootY];
-        }
+    if (rootX === rootY) {
+      continue;
+    }
 
-        return circuits;
-      },
-      {
-        connections: Array.from(junctionBoxes, (_, i) => i),
-        sizes: Array(junctionBoxes.length).fill(1),
-      },
-    )
-    .sizes.sort((a, b) => b - a)
+    if (sizes[rootX]! < sizes[rootY]!) {
+      connections[rootX] = rootY;
+      sizes[rootY]! += sizes[rootX]!;
+    } else {
+      connections[rootY] = rootX;
+      sizes[rootX]! += sizes[rootY]!;
+    }
+  }
+
+  return sizes
+    .toSorted((a, b) => b - a)
     .slice(0, 3)
-    .reduce((prod, s) => prod * s, 1);
+    .reduce((production, s) => production * s, 1);
 }
 
 export function partTwo(input: string) {
@@ -51,46 +51,44 @@ export function partTwo(input: string) {
     .split("\n")
     .map((line) => line.split(",").map(Number) as Point);
 
-  return junctionBoxes
-    .reduce<Point[]>((acc, junctionBoxA, i) => {
-      junctionBoxes.slice(i + 1).forEach((junctionBoxB, j) => {
-        acc.push([i, i + 1 + j, distance(junctionBoxA, junctionBoxB)]);
+  const pairs = junctionBoxes
+    .flatMap((junctionBoxA, indexA) => {
+      return junctionBoxes.slice(indexA + 1).map((junctionBoxB, indexB) => {
+        return [
+          indexA,
+          indexA + 1 + indexB,
+          distance(junctionBoxA, junctionBoxB),
+        ] as const;
       });
+    })
+    .toSorted((a, b) => a[2] - b[2]);
 
-      return acc;
-    }, [])
-    .sort((a, b) => a[2] - b[2])
-    .reduce(
-      (circuits, [junctionBoxA, junctionBoxB]) => {
-        const rootX = findRootJunctionBox(circuits.connections, junctionBoxA);
-        const rootY = findRootJunctionBox(circuits.connections, junctionBoxB);
+  const connections = Array.from(junctionBoxes, (_, index) => index);
+  const sizes = Array.from(junctionBoxes, () => 1);
+  const history: Array<[number, number]> = [];
 
-        if (rootX === rootY) {
-          return circuits;
-        }
+  for (const [junctionBoxA, junctionBoxB] of pairs) {
+    const rootX = findRootJunctionBox(connections, junctionBoxA);
+    const rootY = findRootJunctionBox(connections, junctionBoxB);
 
-        circuits.history.push([junctionBoxA, junctionBoxB]);
+    if (rootX === rootY) {
+      continue;
+    }
 
-        if (circuits.sizes[rootX] < circuits.sizes[rootY]) {
-          circuits.connections[rootX] = rootY;
-          circuits.sizes[rootY] += circuits.sizes[rootX];
-        } else {
-          circuits.connections[rootY] = rootX;
-          circuits.sizes[rootX] += circuits.sizes[rootY];
-        }
+    history.push([junctionBoxA, junctionBoxB]);
 
-        return circuits;
-      },
-      {
-        connections: Array.from(junctionBoxes, (_, i) => i),
-        sizes: Array(junctionBoxes.length).fill(1),
-        history: [] as Array<[number, number]>,
-      },
-    )
-    .history.pop()!
-    .reduce((product, junctionBoxIndex) => {
-      return junctionBoxes[junctionBoxIndex]![0] * product;
-    }, 1);
+    if (sizes[rootX]! < sizes[rootY]!) {
+      connections[rootX] = rootY;
+      sizes[rootY]! += sizes[rootX]!;
+    } else {
+      connections[rootY] = rootX;
+      sizes[rootX]! += sizes[rootY]!;
+    }
+  }
+
+  return history.pop()!.reduce((product, junctionBoxIndex) => {
+    return junctionBoxes[junctionBoxIndex]![0] * product;
+  }, 1);
 }
 
 function distance(a: Point, b: Point) {
@@ -112,7 +110,7 @@ function findRootJunctionBox(connections: number[], index: number): number {
 }
 
 if (import.meta.url === `file://${process.argv.at(1)}`) {
-  const input = fs.readFileSync("src/day-8.input.txt", "utf-8");
+  const input = fs.readFileSync("src/day-8.input.txt", "utf8");
 
   console.log(partOne(input));
   console.log(partTwo(input));

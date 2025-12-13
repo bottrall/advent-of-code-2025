@@ -3,17 +3,20 @@ import fs from "node:fs";
 type Coordinate = [number, number];
 
 export function partOne(input: string) {
-  return input
+  const coords = input
     .split("\n")
-    .map((line) => line.split(",").map(Number) as Coordinate)
-    .reduce((max, tileA, i, tiles) => {
-      tiles.slice(i + 1).forEach((tileB) => {
-        const area = calculateArea(tileA, tileB);
-        max = Math.max(max, area);
-      });
+    .map((line) => line.split(",").map(Number) as Coordinate);
 
-      return max;
-    }, 0);
+  let max = 0;
+
+  for (const tileA of coords) {
+    for (const tileB of coords) {
+      const area = calculateArea(tileA, tileB);
+      max = Math.max(max, area);
+    }
+  }
+
+  return max;
 }
 
 function calculateArea(tileA: Coordinate, tileB: Coordinate) {
@@ -27,116 +30,122 @@ export function partTwo(input: string) {
     .split("\n")
     .map((line) => line.split(",").map(Number) as Coordinate);
 
-  const scanlines = redTiles
-    .reduce<Coordinate[]>((tiles, tile, i) => {
-      const prevTile = redTiles.at(i - 1)!;
+  const outline: Coordinate[] = [];
 
-      const sameRow = tile[1] === prevTile[1];
-      const sameCol = tile[0] === prevTile[0];
+  for (const [index, tile] of redTiles.entries()) {
+    const previousTile = redTiles.at(index - 1)!;
 
-      if (!sameRow && !sameCol) {
-        throw new Error("Tiles are not adjacent in row or column");
+    const sameRow = tile[1] === previousTile[1];
+    const sameCol = tile[0] === previousTile[0];
+
+    if (!sameRow && !sameCol) {
+      throw new Error("Tiles are not adjacent in row or column");
+    }
+
+    if (sameRow) {
+      const direction = tile[0] > previousTile[0] ? 1 : -1;
+
+      for (
+        let index = 1;
+        index < Math.abs(tile[0] - previousTile[0]);
+        index++
+      ) {
+        outline.push([previousTile[0] + index * direction, tile[1]]);
+      }
+    }
+
+    if (sameCol) {
+      const direction = tile[1] > previousTile[1] ? 1 : -1;
+
+      for (
+        let index = 1;
+        index < Math.abs(tile[1] - previousTile[1]);
+        index++
+      ) {
+        outline.push([tile[0], previousTile[1] + index * direction]);
+      }
+    }
+
+    outline.push(tile);
+  }
+
+  const scanlines = new Map<number, number[]>();
+
+  for (const [index, current] of outline.entries()) {
+    const next = outline[(index + 1) % outline.length];
+
+    if (!next) {
+      throw new Error("No next point");
+    }
+
+    const [x1, y1] = current;
+    const [x2, y2] = next;
+
+    if (x1 !== x2) {
+      continue;
+    }
+
+    const yMin = Math.min(y1, y2);
+    const yMax = Math.max(y1, y2);
+
+    for (const index of Array.from(
+      { length: yMax - yMin },
+      (_, index_) => yMin + index_,
+    )) {
+      const list = scanlines.get(index) ?? [];
+      scanlines.set(index, [...list, x1]);
+    }
+  }
+
+  const scanlineMap = new Map<number, Coordinate[]>();
+
+  for (const [y, xVals] of scanlines.entries()) {
+    const sorted = xVals.toSorted((a, b) => a - b);
+
+    const intervals = sorted.flatMap((value, index) => {
+      if (index % 2 === 0) {
+        return [[value, sorted[index + 1]!] as Coordinate];
+      }
+      return [];
+    });
+
+    const merged: Coordinate[] = [];
+
+    for (const [intervalIndex, interval] of intervals.entries()) {
+      if (intervalIndex === 0) {
+        merged.push(interval);
+        continue;
       }
 
-      if (sameRow) {
-        const direction = tile[0] > prevTile[0] ? 1 : -1;
+      const last = merged.at(-1);
 
-        for (let j = 1; j < Math.abs(tile[0] - prevTile[0]); j++) {
-          tiles.push([prevTile[0] + j * direction, tile[1]]);
-        }
+      if (!last) {
+        throw new Error("Unexpected empty output intervals");
       }
 
-      if (sameCol) {
-        const direction = tile[1] > prevTile[1] ? 1 : -1;
-
-        for (let j = 1; j < Math.abs(tile[1] - prevTile[1]); j++) {
-          tiles.push([tile[0], prevTile[1] + j * direction]);
-        }
+      if (last[1] >= interval[0]) {
+        last[1] = Math.max(last[1], interval[1]);
+        continue;
       }
 
-      tiles.push(tile);
+      merged.push(interval);
+    }
 
-      return tiles;
-    }, [])
-    .reduce((acc, curr, i, outline) => {
-      const next = outline[(i + 1) % outline.length];
-
-      if (!next) {
-        throw new Error("No next point");
-      }
-
-      const [x1, y1] = curr;
-      const [x2, y2] = next;
-
-      if (x1 !== x2) {
-        return acc;
-      }
-
-      const yMin = Math.min(y1, y2);
-      const yMax = Math.max(y1, y2);
-
-      Array.from({ length: yMax - yMin }, (_, j) => yMin + j).forEach((j) => {
-        const list = acc.get(j) ?? [];
-        acc.set(j, [...list, x1]);
-      });
-
-      return acc;
-    }, new Map<number, number[]>());
-
-  const scanlineMap = Array.from(scanlines.entries()).reduce(
-    (acc, [y, xVals]) => {
-      const sorted = [...xVals].sort((a, b) => a - b);
-
-      const intervals = sorted.reduce<Coordinate[]>((pairs, x, i) => {
-        if (i % 2 === 0) {
-          return [...pairs, [x, sorted[i + 1]!]];
-        }
-        return pairs;
-      }, []);
-
-      const merged = intervals.reduce<Coordinate[]>((out, curr) => {
-        if (out.length === 0) {
-          return [curr];
-        }
-
-        const last = out[out.length - 1];
-
-        if (!last) {
-          throw new Error("Unexpected empty output intervals");
-        }
-
-        if (last[1] >= curr[0]) {
-          last[1] = Math.max(last[1], curr[1]);
-          return out;
-        }
-
-        return [...out, curr];
-      }, []);
-
-      acc.set(y, merged);
-
-      return acc;
-    },
-    new Map<number, Coordinate[]>(),
-  );
+    scanlineMap.set(y, merged);
+  }
 
   const pairs = redTiles
-    .reduce<{ tileA: Coordinate; tileB: Coordinate; area: number }[]>(
-      (acc, tileA, i, tiles) => {
-        tiles.slice(i + 1).forEach((tileB) => {
-          acc.push({ tileA, tileB, area: calculateArea(tileA, tileB) });
-        });
-
-        return acc;
-      },
-      [],
-    )
-    .sort((a, b) => b.area - a.area);
+    .flatMap((tileA, indexA) => {
+      return redTiles.slice(indexA + 1).map((tileB) => {
+        return { tileA, tileB, area: calculateArea(tileA, tileB) };
+      });
+    })
+    .toSorted((a, b) => b.area - a.area);
 
   let max = 0;
 
-  for (let i = 0; i < pairs.length; i++) {
-    const pair = pairs[i]!;
+  for (const pair_ of pairs) {
+    const pair = pair_!;
 
     if (isContained(scanlineMap, pair.tileA, pair.tileB)) {
       max = pair.area;
@@ -175,7 +184,7 @@ function isContained(
 }
 
 if (import.meta.url === `file://${process.argv.at(1)}`) {
-  const input = fs.readFileSync("src/day-9.input.txt", "utf-8");
+  const input = fs.readFileSync("src/day-9.input.txt", "utf8");
 
   console.log(partOne(input));
   console.time("partTwo");

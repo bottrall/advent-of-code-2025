@@ -1,15 +1,16 @@
 import fs from "node:fs";
 
 export function partOne(input: string) {
-  let numOfRolls = 0;
+  let numberOfRolls = 0;
 
-  const grid = input.split("\n").map((line) => line.split(""));
+  const grid = input.split("\n").map((line) => [...line]);
 
-  grid.forEach((row, rowIndex) => {
-    row.forEach((place, colIndex) => {
+  for (const [rowIndex, row] of grid.entries()) {
+    for (const [colIndex, place] of row.entries()) {
       if (place !== "@") {
-        return;
+        continue;
       }
+
       const surroundingPositions = [
         [rowIndex - 1, colIndex - 1],
         [rowIndex - 1, colIndex],
@@ -34,27 +35,27 @@ export function partOne(input: string) {
       }
 
       if (adjacentFilled < 4) {
-        numOfRolls++;
+        numberOfRolls++;
       }
-    });
-  });
+    }
+  }
 
-  return numOfRolls;
+  return numberOfRolls;
 }
 
 export function partTwo(input: string) {
-  const grid = input.split("\n").map((line) => line.split(""));
+  const grid = input.split("\n").map((line) => [...line]);
 
-  let numOfRolls = 0;
+  let numberOfRolls = 0;
   let check = true;
 
   while (check) {
     check = false;
 
-    grid.forEach((row, rowIndex) => {
-      row.forEach((place, colIndex) => {
+    for (const [rowIndex, row] of grid.entries()) {
+      for (const [colIndex, place] of row.entries()) {
         if (place !== "@") {
-          return;
+          continue;
         }
 
         const surroundingPositions = [
@@ -81,19 +82,19 @@ export function partTwo(input: string) {
         }
 
         if (adjacentFilled < 4) {
-          numOfRolls++;
+          numberOfRolls++;
           check = true;
           grid[rowIndex]![colIndex] = "x";
         }
-      });
-    });
+      }
+    }
   }
 
-  return numOfRolls;
+  return numberOfRolls;
 }
 
 if (import.meta.url === `file://${process.argv.at(1)}`) {
-  const input = fs.readFileSync("src/day-4.input.txt", "utf-8");
+  const input = fs.readFileSync("src/day-4.input.txt", "utf8");
 
   console.log(partOne(input));
   console.log(partTwo(input));

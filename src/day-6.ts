@@ -2,43 +2,58 @@ import fs from "node:fs";
 
 export function partOne(input: string) {
   interface Equation {
-    operation: "*" | "+" | null;
+    operation?: "*" | "+";
     values: number[];
   }
 
-  return input
-    .split("\n")
-    .reduce<Equation[]>((equations, line) => {
-      line
-        .split(" ")
-        .filter((value) => value.trim() !== "")
-        .forEach((value, colIndex) => {
-          const equation = equations[colIndex];
+  const lines = input.split("\n");
 
-          if (!equation) {
-            equations.push({ operation: null, values: [Number(value)] });
-            return;
-          }
+  const equations: Equation[] = [];
 
-          if (value === "+" || value === "*") {
-            equation.operation = value;
-          } else {
-            equation.values.push(Number(value));
-          }
-        });
+  for (const line of lines) {
+    const values = line.split(" ").filter((value) => value.trim() !== "");
 
-      return equations;
-    }, [])
-    .reduce<number>((sum, equation) => {
-      switch (equation.operation) {
-        case "+":
-          return sum + equation.values.reduce((acc, val) => acc + val, 0);
-        case "*":
-          return sum + equation.values.reduce((acc, val) => acc * val, 1);
-        default:
-          throw new Error("Null operation");
+    for (const [colIndex, value] of values.entries()) {
+      const equation = equations[colIndex];
+
+      if (!equation) {
+        equations.push({ values: [Number(value)] });
+        continue;
       }
-    }, 0);
+
+      if (value === "+" || value === "*") {
+        equation.operation = value;
+      } else {
+        equation.values.push(Number(value));
+      }
+    }
+  }
+
+  let sum = 0;
+
+  for (const equation of equations) {
+    switch (equation.operation) {
+      case "+": {
+        sum += equation.values.reduce(
+          (accumulator, value) => accumulator + value,
+          0,
+        );
+        break;
+      }
+      case "*": {
+        sum += equation.values.reduce(
+          (accumulator, value) => accumulator * value,
+          1,
+        );
+        break;
+      }
+      default: {
+        throw new Error("undefined operation");
+      }
+    }
+  }
+
+  return sum;
 }
 
 export function partTwo(input: string) {
@@ -54,40 +69,51 @@ export function partTwo(input: string) {
     throw new Error("Invalid input");
   }
 
-  return operationsLine
-    .split("")
-    .reduce<Equation[]>((equations, char, i) => {
-      if (char === "+" || char === "*") {
-        equations.push({
-          operation: char,
-          values: [deriveValueFromIndex(lines, i)],
-        });
-        return equations;
+  const equations: Equation[] = [];
+
+  for (const [index, char] of [...operationsLine].entries()) {
+    if (char === "+" || char === "*") {
+      equations.push({
+        operation: char,
+        values: [deriveValueFromIndex(lines, index)],
+      });
+
+      continue;
+    }
+
+    const lastEquation = equations.at(-1);
+
+    if (!lastEquation) {
+      throw new Error("Invalid equation parsing");
+    }
+
+    lastEquation.values.push(deriveValueFromIndex(lines, index));
+  }
+
+  let sum = 0;
+
+  for (const equation of equations) {
+    switch (equation.operation) {
+      case "+": {
+        sum += equation.values.reduce(
+          (accumulator, value) => accumulator + value,
+          0,
+        );
+        break;
       }
-
-      const lastEquation = equations[equations.length - 1];
-
-      if (!lastEquation) {
-        throw new Error("Invalid equation parsing");
+      case "*": {
+        sum += equation.values
+          .filter((value) => value !== 0)
+          .reduce((accumulator, value) => accumulator * value, 1);
+        break;
       }
-
-      lastEquation.values.push(deriveValueFromIndex(lines, i));
-
-      return equations;
-    }, [])
-    .reduce<number>((sum, equation) => {
-      switch (equation.operation) {
-        case "+":
-          return sum + equation.values.reduce((acc, val) => acc + val, 0);
-        case "*":
-          return (
-            sum +
-            equation.values
-              .filter((val) => val !== 0)
-              .reduce((acc, val) => acc * val, 1)
-          );
+      default: {
+        throw new Error("undefined operation");
       }
-    }, 0);
+    }
+  }
+
+  return sum;
 }
 
 function deriveValueFromIndex(lines: string[], index: number) {
@@ -95,7 +121,7 @@ function deriveValueFromIndex(lines: string[], index: number) {
 }
 
 if (import.meta.url === `file://${process.argv.at(1)}`) {
-  const input = fs.readFileSync("src/day-6.input.txt", "utf-8");
+  const input = fs.readFileSync("src/day-6.input.txt", "utf8");
 
   console.log(partOne(input));
   console.log(partTwo(input));

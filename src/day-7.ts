@@ -1,27 +1,28 @@
 import fs from "node:fs";
 
 export function partOne(input: string) {
-  const initialState = {
-    splitCount: 0,
-    beamIndices: new Set<number>(),
-  };
+  const lines = input.split("\n");
 
-  return input.split("\n").reduce<typeof initialState>((acc, line, i) => {
-    if (i === 0) {
-      acc.beamIndices.add(line.indexOf("S"));
+  const beamIndices = new Set<number>();
+
+  let splitCount = 0;
+
+  for (const [lineIndex, line] of lines.entries()) {
+    if (lineIndex === 0) {
+      beamIndices.add(line.indexOf("S"));
     }
 
-    acc.beamIndices.forEach((index) => {
+    for (const index of beamIndices) {
       if (line[index] === "^") {
-        acc.splitCount += 1;
-        acc.beamIndices.delete(index);
-        acc.beamIndices.add(index - 1);
-        acc.beamIndices.add(index + 1);
+        splitCount += 1;
+        beamIndices.delete(index);
+        beamIndices.add(index - 1);
+        beamIndices.add(index + 1);
       }
-    });
+    }
+  }
 
-    return acc;
-  }, initialState).splitCount;
+  return splitCount;
 }
 
 export function partTwo(input: string) {
@@ -47,12 +48,12 @@ function timeline(
 
   let sum = 1;
 
-  lines.forEach((line, i) => {
+  for (const [index, line] of lines.entries()) {
     if (line[beamIndex] === "^") {
-      sum += timeline(lines.slice(i + 1), beamIndex + 1, cache);
+      sum += timeline(lines.slice(index + 1), beamIndex + 1, cache);
       beamIndex -= 1;
     }
-  });
+  }
 
   cache.set(cacheKey, sum);
 
@@ -60,7 +61,7 @@ function timeline(
 }
 
 if (import.meta.url === `file://${process.argv.at(1)}`) {
-  const input = fs.readFileSync("src/day-7.input.txt", "utf-8");
+  const input = fs.readFileSync("src/day-7.input.txt", "utf8");
 
   console.log(partOne(input));
   console.log(partTwo(input));

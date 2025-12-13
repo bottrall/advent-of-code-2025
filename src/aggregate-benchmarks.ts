@@ -42,7 +42,7 @@ async function main() {
   const allData: BenchmarkFile[] = [];
 
   for (const file of benchmarkFiles) {
-    const data = JSON.parse(fs.readFileSync(file, "utf-8"));
+    const data = JSON.parse(fs.readFileSync(file, "utf8"));
     allData.push(data);
     console.log(`  ✓ Loaded ${file}`);
   }
@@ -81,7 +81,7 @@ async function generateReport(
   markdown += `Iterations per test: ${iterations}\n\n`;
 
   // Sort days
-  const sortedDays = Array.from(resultsByDay.keys()).sort();
+  const sortedDays = [...resultsByDay.keys()].toSorted();
 
   for (const day of sortedDays) {
     const results = resultsByDay.get(day)!;
@@ -124,5 +124,5 @@ async function generateReport(
 }
 
 if (import.meta.url === `file://${process.argv.at(1)}`) {
-  main();
+  await main();
 }

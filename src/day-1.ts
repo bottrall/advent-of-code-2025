@@ -4,27 +4,30 @@ export function partOne(input: string) {
   let zeroCount = 0;
   let position = 50;
 
-  input.split("\n").forEach((line) => {
+  for (const line of input.split("\n")) {
     const direction = line.charAt(0);
     const amount = Number(line.slice(1));
 
     const partialRotation = amount % 100;
 
     switch (direction) {
-      case "R":
+      case "R": {
         position = (position + partialRotation) % 100;
         break;
-      case "L":
+      }
+      case "L": {
         position = (position - partialRotation + 100) % 100;
         break;
-      default:
+      }
+      default: {
         throw new Error(`Unknown direction: ${direction}`);
+      }
     }
 
     if (position === 0) {
       zeroCount++;
     }
-  });
+  }
 
   return zeroCount;
 }
@@ -33,7 +36,7 @@ export function partTwo(input: string) {
   let zeroCount = 0;
   let position = 50;
 
-  input.split("\n").forEach((line) => {
+  for (const line of input.split("\n")) {
     const direction = line.charAt(0);
     const amount = Number(line.slice(1));
 
@@ -53,22 +56,25 @@ export function partTwo(input: string) {
     const partialRotation = amount % 100;
 
     switch (direction) {
-      case "R":
+      case "R": {
         position = (position + partialRotation) % 100;
         break;
-      case "L":
+      }
+      case "L": {
         position = (position - partialRotation + 100) % 100;
         break;
-      default:
+      }
+      default: {
         throw new Error(`Unknown direction: ${direction}`);
+      }
     }
-  });
+  }
 
   return zeroCount;
 }
 
 if (import.meta.url === `file://${process.argv.at(1)}`) {
-  const input = fs.readFileSync("src/day-1.input.txt", "utf-8");
+  const input = fs.readFileSync("src/day-1.input.txt", "utf8");
 
   console.log(partOne(input));
   console.log(partTwo(input));

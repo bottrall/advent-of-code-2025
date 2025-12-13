@@ -43,7 +43,7 @@ async function runBenchmarks(runtime: string) {
   const files = fs
     .readdirSync("src")
     .filter((file) => file.startsWith("day-") && file.endsWith(".ts"))
-    .sort();
+    .toSorted();
 
   console.log(`\n🏃 Running benchmarks with ${runtime}...`);
 
@@ -80,13 +80,13 @@ function loadExistingResults(filename: string): Map<string, BenchmarkResult> {
 
   if (fs.existsSync(filename)) {
     try {
-      const data = JSON.parse(fs.readFileSync(filename, "utf-8"));
+      const data = JSON.parse(fs.readFileSync(filename, "utf8"));
       if (data.results && Array.isArray(data.results)) {
         for (const result of data.results) {
           map.set(result.day, result);
         }
       }
-    } catch (error) {
+    } catch {
       console.warn(`⚠️  Could not load existing results from ${filename}`);
     }
   }
@@ -103,7 +103,7 @@ async function benchmarkDay(
 ) {
   const module: DayModule = await import(`./${dayFile}`);
   const inputFile = dayFile.replace(".ts", ".input.txt");
-  const input = fs.readFileSync(path.join("src", inputFile), "utf-8");
+  const input = fs.readFileSync(path.join("src", inputFile), "utf8");
 
   const partOneResults = benchmarkFunction(
     () => module.partOne(input),
@@ -126,16 +126,16 @@ async function benchmarkDay(
 }
 
 function benchmarkFunction(
-  fn: () => unknown,
+  function_: () => unknown,
   iterations: number,
   onProgress?: (current: number, total: number) => void,
 ) {
   const times: number[] = [];
 
-  for (let i = 0; i < iterations; i++) {
-    onProgress?.(i + 1, iterations);
+  for (let index = 0; index < iterations; index++) {
+    onProgress?.(index + 1, iterations);
     const start = performance.now();
-    fn();
+    function_();
     const end = performance.now();
     times.push(end - start);
   }
@@ -143,7 +143,7 @@ function benchmarkFunction(
   times.sort((a, b) => a - b);
 
   const min = times[0]!;
-  const max = times[times.length - 1]!;
+  const max = times.at(-1)!;
   const p50 = times[Math.floor(times.length * 0.5)]!;
   const p75 = times[Math.floor(times.length * 0.75)]!;
   const p99 = times[Math.floor(times.length * 0.99)]!;
@@ -167,11 +167,11 @@ async function saveResults(runtime: string, results: BenchmarkResult[]) {
     results,
   };
 
-  fs.writeFileSync(filename, JSON.stringify(data, null, 2));
+  fs.writeFileSync(filename, JSON.stringify(data, undefined, 2));
 
   console.log(`💾 Results saved to ${filename}`);
 }
 
 if (import.meta.url === `file://${process.argv.at(1)}`) {
-  main();
+  await main();
 }
