@@ -1,6 +1,6 @@
 {
   "runtime": "deno",
-  "lastUpdated": "2025-12-14T00:16:12.332Z",
+  "lastUpdated": "2025-12-14T20:00:24.597Z",
   "durationSeconds": 60,
   "results": [
     {
@@ -11,16 +11,6 @@
       },
       "partTwo": {
         "opsPerSecond": 5262.7
-      }
-    },
-    {
-      "day": "day-10",
-      "runtime": "deno",
-      "partOne": {
-        "opsPerSecond": 29.8
-      },
-      "partTwo": {
-        "opsPerSecond": 7965485.53
       }
     },
     {
@@ -101,6 +91,16 @@
       },
       "partTwo": {
         "opsPerSecond": 0.14
+      }
+    },
+    {
+      "day": "day-10",
+      "runtime": "deno",
+      "partOne": {
+        "opsPerSecond": 30.34
+      },
+      "partTwo": {
+        "opsPerSecond": 12.84
       }
     }
   ]

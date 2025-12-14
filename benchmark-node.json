@@ -1,6 +1,6 @@
 {
   "runtime": "node",
-  "lastUpdated": "2025-12-13T23:36:03.283Z",
+  "lastUpdated": "2025-12-14T19:56:24.437Z",
   "durationSeconds": 60,
   "results": [
     {
@@ -11,16 +11,6 @@
       },
       "partTwo": {
         "opsPerSecond": 4910.28
-      }
-    },
-    {
-      "day": "day-10",
-      "runtime": "node",
-      "partOne": {
-        "opsPerSecond": 29.66
-      },
-      "partTwo": {
-        "opsPerSecond": 24455026.85
       }
     },
     {
@@ -101,6 +91,16 @@
       },
       "partTwo": {
         "opsPerSecond": 0.13
+      }
+    },
+    {
+      "day": "day-10",
+      "runtime": "node",
+      "partOne": {
+        "opsPerSecond": 29.59
+      },
+      "partTwo": {
+        "opsPerSecond": 13.24
       }
     }
   ]
