@@ -35,7 +35,11 @@ async function runBenchmarks(runtime: string) {
   const files = fs
     .readdirSync("src")
     .filter((file) => file.startsWith("day-") && file.endsWith(".ts"))
-    .toSorted();
+    .toSorted((a, b) => {
+      const dayA = Number(a.replace("day-", "").replace(".ts", ""));
+      const dayB = Number(b.replace("day-", "").replace(".ts", ""));
+      return dayA - dayB;
+    });
 
   console.log(`\n🏃 Running benchmarks with ${runtime}...`);
 
