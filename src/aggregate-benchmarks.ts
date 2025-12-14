@@ -68,12 +68,16 @@ async function generateReport(
   resultsByDay: Map<string, BenchmarkResult[]>,
   durationSeconds: number,
 ) {
-  let markdown = `# Advent of Code 2025 - Benchmark Results\n\n`;
+  let markdown = `# Advent of Code 2025   - Benchmark Results\n\n`;
   markdown += `Last updated: ${new Date().toLocaleString()}\n`;
   markdown += `Duration per test: ${durationSeconds} seconds\n\n`;
 
   // Sort days
-  const sortedDays = [...resultsByDay.keys()].toSorted();
+  const sortedDays = [...resultsByDay.keys()].toSorted((a, b) => {
+    const dayA = Number(a.replace("day-", ""));
+    const dayB = Number(b.replace("day-", ""));
+    return dayA - dayB;
+  });
 
   for (const day of sortedDays) {
     const results = resultsByDay.get(day)!;

@@ -1,6 +1,6 @@
 # Advent of Code 2025 - Benchmark Results
 
-Last updated: 2025-12-14, 12:00:24 p.m.
+Last updated: 2025-12-14, 12:03:11 p.m.
 Duration per test: 60 seconds
 
 ## Day 1
@@ -20,24 +20,6 @@ Duration per test: 60 seconds
 | Bun     | 4394.15    |
 | Deno    | 5262.7     |
 | Node    | 4910.28    |
-
-## Day 10
-
-### Part 1
-
-| Runtime | Ops/Second |
-| ------- | ---------- |
-| Bun     | 60.89      |
-| Deno    | 30.34      |
-| Node    | 29.59      |
-
-### Part 2
-
-| Runtime | Ops/Second |
-| ------- | ---------- |
-| Bun     | 51.02      |
-| Deno    | 12.84      |
-| Node    | 13.24      |
 
 ## Day 2
 
@@ -182,3 +164,21 @@ Duration per test: 60 seconds
 | Bun     | 0.21       |
 | Deno    | 0.14       |
 | Node    | 0.13       |
+
+## Day 10
+
+### Part 1
+
+| Runtime | Ops/Second |
+| ------- | ---------- |
+| Bun     | 60.89      |
+| Deno    | 30.34      |
+| Node    | 29.59      |
+
+### Part 2
+
+| Runtime | Ops/Second |
+| ------- | ---------- |
+| Bun     | 51.02      |
+| Deno    | 12.84      |
+| Node    | 13.24      |
