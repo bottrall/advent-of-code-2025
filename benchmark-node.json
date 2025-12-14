@@ -1,168 +1,106 @@
 {
   "runtime": "node",
-  "lastUpdated": "2025-12-11T03:24:29.766Z",
-  "iterations": 50,
+  "lastUpdated": "2025-12-13T23:36:03.283Z",
+  "durationSeconds": 60,
   "results": [
     {
       "day": "day-1",
       "runtime": "node",
       "partOne": {
-        "minMs": 0.1954,
-        "p50Ms": 0.2122,
-        "p75Ms": 0.218,
-        "p99Ms": 0.2464,
-        "maxMs": 0.634
+        "opsPerSecond": 5055.7
       },
       "partTwo": {
-        "minMs": 0.2046,
-        "p50Ms": 0.2194,
-        "p75Ms": 0.2231,
-        "p99Ms": 0.2475,
-        "maxMs": 0.4815
+        "opsPerSecond": 4910.28
+      }
+    },
+    {
+      "day": "day-10",
+      "runtime": "node",
+      "partOne": {
+        "opsPerSecond": 29.66
+      },
+      "partTwo": {
+        "opsPerSecond": 24455026.85
       }
     },
     {
       "day": "day-2",
       "runtime": "node",
       "partOne": {
-        "minMs": 40.8736,
-        "p50Ms": 41.8526,
-        "p75Ms": 42.1292,
-        "p99Ms": 45.4916,
-        "maxMs": 45.4916
+        "opsPerSecond": 24.13
       },
       "partTwo": {
-        "minMs": 1362.5151,
-        "p50Ms": 1372.7818,
-        "p75Ms": 1376.4121,
-        "p99Ms": 1402.8715,
-        "maxMs": 1402.8715
+        "opsPerSecond": 0.73
       }
     },
     {
       "day": "day-3",
       "runtime": "node",
       "partOne": {
-        "minMs": 0.1591,
-        "p50Ms": 0.166,
-        "p75Ms": 0.1818,
-        "p99Ms": 0.2045,
-        "maxMs": 0.3947
+        "opsPerSecond": 4946.31
       },
       "partTwo": {
-        "minMs": 0.2741,
-        "p50Ms": 0.2868,
-        "p75Ms": 0.2941,
-        "p99Ms": 0.335,
-        "maxMs": 1.1428
+        "opsPerSecond": 3050.72
       }
     },
     {
       "day": "day-4",
       "runtime": "node",
       "partOne": {
-        "minMs": 1.2222,
-        "p50Ms": 1.278,
-        "p75Ms": 1.3081,
-        "p99Ms": 1.3715,
-        "maxMs": 2.8655
+        "opsPerSecond": 701.03
       },
       "partTwo": {
-        "minMs": 23.2522,
-        "p50Ms": 24.1108,
-        "p75Ms": 24.2523,
-        "p99Ms": 25.3309,
-        "maxMs": 26.6829
+        "opsPerSecond": 37.12
       }
     },
     {
       "day": "day-5",
       "runtime": "node",
       "partOne": {
-        "minMs": 0.1942,
-        "p50Ms": 0.2098,
-        "p75Ms": 0.2183,
-        "p99Ms": 0.2883,
-        "maxMs": 1.7518
+        "opsPerSecond": 2945.26
       },
       "partTwo": {
-        "minMs": 0.047,
-        "p50Ms": 0.0581,
-        "p75Ms": 0.0597,
-        "p99Ms": 0.0737,
-        "maxMs": 0.2263
+        "opsPerSecond": 21518.31
       }
     },
     {
       "day": "day-6",
       "runtime": "node",
       "partOne": {
-        "minMs": 0.2753,
-        "p50Ms": 0.3108,
-        "p75Ms": 0.3284,
-        "p99Ms": 0.4185,
-        "maxMs": 1.2791
+        "opsPerSecond": 3375.51
       },
       "partTwo": {
-        "minMs": 0.2959,
-        "p50Ms": 0.3228,
-        "p75Ms": 0.3286,
-        "p99Ms": 0.4473,
-        "maxMs": 0.8628
+        "opsPerSecond": 3161.76
       }
     },
     {
       "day": "day-7",
       "runtime": "node",
       "partOne": {
-        "minMs": 0.0677,
-        "p50Ms": 0.0805,
-        "p75Ms": 0.0842,
-        "p99Ms": 0.1253,
-        "maxMs": 0.5273
+        "opsPerSecond": 18016.21
       },
       "partTwo": {
-        "minMs": 1.084,
-        "p50Ms": 1.2175,
-        "p75Ms": 1.2626,
-        "p99Ms": 1.4957,
-        "maxMs": 2.6315
+        "opsPerSecond": 801.12
       }
     },
     {
       "day": "day-8",
       "runtime": "node",
       "partOne": {
-        "minMs": 129.854,
-        "p50Ms": 136.3356,
-        "p75Ms": 143.4639,
-        "p99Ms": 185.308,
-        "maxMs": 204.8315
+        "opsPerSecond": 7.2
       },
       "partTwo": {
-        "minMs": 155.9023,
-        "p50Ms": 169.7605,
-        "p75Ms": 175.7789,
-        "p99Ms": 205.1248,
-        "maxMs": 234.6264
+        "opsPerSecond": 5.99
       }
     },
     {
       "day": "day-9",
       "runtime": "node",
       "partOne": {
-        "minMs": 0.3448,
-        "p50Ms": 0.9037,
-        "p75Ms": 0.9402,
-        "p99Ms": 2.3061,
-        "maxMs": 2.3061
+        "opsPerSecond": 2002.68
       },
       "partTwo": {
-        "minMs": 6627.9838,
-        "p50Ms": 7024.9138,
-        "p75Ms": 7092.1518,
-        "p99Ms": 7146.4691,
-        "maxMs": 7146.4691
+        "opsPerSecond": 0.13
       }
     }
   ]

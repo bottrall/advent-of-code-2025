@@ -10,18 +10,10 @@ interface BenchmarkResult {
   day: string;
   runtime: string;
   partOne: {
-    minMs: number;
-    p50Ms: number;
-    p75Ms: number;
-    p99Ms: number;
-    maxMs: number;
+    opsPerSecond: number;
   };
   partTwo: {
-    minMs: number;
-    p50Ms: number;
-    p75Ms: number;
-    p99Ms: number;
-    maxMs: number;
+    opsPerSecond: number;
   };
 }
 
@@ -58,18 +50,14 @@ async function runBenchmarks(runtime: string) {
     }
 
     console.log(`  Benchmarking ${file}...`);
-    const result = await benchmarkDay(file, runtime, (part, current, total) => {
-      process.stdout.write(`\r    ${part}: ${current}/${total} iterations`);
+    const result = await benchmarkDay(file, runtime, (part, elapsed, ops) => {
+      process.stdout.write(`\r    ${part}: ${elapsed}s elapsed, ${ops} ops`);
     });
     process.stdout.write("\r");
     results.push(result);
 
-    console.log(
-      `    Part 1: ${result.partOne.p50Ms}ms (min: ${result.partOne.minMs}ms, p99: ${result.partOne.p99Ms}ms, max: ${result.partOne.maxMs}ms)`,
-    );
-    console.log(
-      `    Part 2: ${result.partTwo.p50Ms}ms (min: ${result.partTwo.minMs}ms, p99: ${result.partTwo.p99Ms}ms, max: ${result.partTwo.maxMs}ms)`,
-    );
+    console.log(`    Part 1: ${result.partOne.opsPerSecond} ops/s`);
+    console.log(`    Part 2: ${result.partTwo.opsPerSecond} ops/s`);
   }
 
   return results;
@@ -94,12 +82,12 @@ function loadExistingResults(filename: string): Map<string, BenchmarkResult> {
   return map;
 }
 
-const ITERATIONS = 1000;
+const DURATION_SECONDS = 60;
 
 async function benchmarkDay(
   dayFile: string,
   runtime: string,
-  onProgress?: (part: string, current: number, total: number) => void,
+  onProgress?: (part: string, elapsed: number, ops: number) => void,
 ) {
   const module: DayModule = await import(`./${dayFile}`);
   const inputFile = dayFile.replace(".ts", ".input.txt");
@@ -107,14 +95,14 @@ async function benchmarkDay(
 
   const partOneResults = benchmarkFunction(
     () => module.partOne(input),
-    ITERATIONS,
-    (current, total) => onProgress?.("Part 1", current, total),
+    DURATION_SECONDS,
+    (elapsed, ops) => onProgress?.("Part 1", elapsed, ops),
   );
 
   const partTwoResults = benchmarkFunction(
     () => module.partTwo(input),
-    ITERATIONS,
-    (current, total) => onProgress?.("Part 2", current, total),
+    DURATION_SECONDS,
+    (elapsed, ops) => onProgress?.("Part 2", elapsed, ops),
   );
 
   return {
@@ -127,33 +115,31 @@ async function benchmarkDay(
 
 function benchmarkFunction(
   function_: () => unknown,
-  iterations: number,
-  onProgress?: (current: number, total: number) => void,
+  durationSeconds: number,
+  onProgress?: (elapsedSeconds: number, operations: number) => void,
 ) {
-  const times: number[] = [];
+  const startTime = performance.now();
+  const endTime = startTime + durationSeconds * 1000;
+  let operations = 0;
+  let lastProgressUpdate = startTime;
 
-  for (let index = 0; index < iterations; index++) {
-    onProgress?.(index + 1, iterations);
-    const start = performance.now();
+  while (performance.now() < endTime) {
     function_();
-    const end = performance.now();
-    times.push(end - start);
+    operations++;
+
+    const now = performance.now();
+    if (now - lastProgressUpdate >= 1000) {
+      const elapsed = Math.floor((now - startTime) / 1000);
+      onProgress?.(elapsed, operations);
+      lastProgressUpdate = now;
+    }
   }
 
-  times.sort((a, b) => a - b);
-
-  const min = times[0]!;
-  const max = times.at(-1)!;
-  const p50 = times[Math.floor(times.length * 0.5)]!;
-  const p75 = times[Math.floor(times.length * 0.75)]!;
-  const p99 = times[Math.floor(times.length * 0.99)]!;
+  const actualDuration = (performance.now() - startTime) / 1000;
+  const opsPerSecond = operations / actualDuration;
 
   return {
-    minMs: Number(min.toFixed(4)),
-    p50Ms: Number(p50.toFixed(4)),
-    p75Ms: Number(p75.toFixed(4)),
-    p99Ms: Number(p99.toFixed(4)),
-    maxMs: Number(max.toFixed(4)),
+    opsPerSecond: Number(opsPerSecond.toFixed(2)),
   };
 }
 
@@ -163,7 +149,7 @@ async function saveResults(runtime: string, results: BenchmarkResult[]) {
   const data = {
     runtime,
     lastUpdated: new Date().toISOString(),
-    iterations: ITERATIONS,
+    durationSeconds: DURATION_SECONDS,
     results,
   };
 

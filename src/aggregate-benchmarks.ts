@@ -5,25 +5,17 @@ interface BenchmarkResult {
   day: string;
   runtime: string;
   partOne: {
-    minMs: number;
-    p50Ms: number;
-    p75Ms: number;
-    p99Ms: number;
-    maxMs: number;
+    opsPerSecond: number;
   };
   partTwo: {
-    minMs: number;
-    p50Ms: number;
-    p75Ms: number;
-    p99Ms: number;
-    maxMs: number;
+    opsPerSecond: number;
   };
 }
 
 interface BenchmarkFile {
   runtime: string;
   lastUpdated: string;
-  iterations: number;
+  durationSeconds: number;
   results: BenchmarkResult[];
 }
 
@@ -54,10 +46,10 @@ async function main() {
 
   const resultsByDay = new Map<string, BenchmarkResult[]>();
 
-  let iterations = 0;
+  let durationSeconds = 0;
 
   for (const data of allData) {
-    iterations = data.iterations;
+    durationSeconds = data.durationSeconds;
 
     for (const result of data.results) {
       if (!resultsByDay.has(result.day)) {
@@ -67,18 +59,18 @@ async function main() {
     }
   }
 
-  await generateReport(resultsByDay, iterations);
+  await generateReport(resultsByDay, durationSeconds);
 
   console.log("\n✅ Aggregated benchmark results saved to BENCHMARKS.md");
 }
 
 async function generateReport(
   resultsByDay: Map<string, BenchmarkResult[]>,
-  iterations: number,
+  durationSeconds: number,
 ) {
   let markdown = `# Advent of Code 2025 - Benchmark Results\n\n`;
   markdown += `Last updated: ${new Date().toLocaleString()}\n`;
-  markdown += `Iterations per test: ${iterations}\n\n`;
+  markdown += `Duration per test: ${durationSeconds} seconds\n\n`;
 
   // Sort days
   const sortedDays = [...resultsByDay.keys()].toSorted();
@@ -94,24 +86,24 @@ async function generateReport(
 
     // Part 1 table
     markdown += `### Part 1\n\n`;
-    markdown += `| Runtime | Min (ms) | P50 (ms) | P75 (ms) | P99 (ms) | Max (ms) |\n`;
-    markdown += `| ------- | -------- | -------- | -------- | -------- | -------- |\n`;
+    markdown += `| Runtime | Ops/Second |\n`;
+    markdown += `| ------- | ---------- |\n`;
 
     for (const result of results) {
       const runtimeName =
         result.runtime.charAt(0).toUpperCase() + result.runtime.slice(1);
-      markdown += `| ${runtimeName} | ${result.partOne.minMs} | ${result.partOne.p50Ms} | ${result.partOne.p75Ms} | ${result.partOne.p99Ms} | ${result.partOne.maxMs} |\n`;
+      markdown += `| ${runtimeName} | ${result.partOne.opsPerSecond} |\n`;
     }
 
     // Part 2 table
     markdown += `\n### Part 2\n\n`;
-    markdown += `| Runtime | Min (ms) | P50 (ms) | P75 (ms) | P99 (ms) | Max (ms) |\n`;
-    markdown += `| ------- | -------- | -------- | -------- | -------- | -------- |\n`;
+    markdown += `| Runtime | Ops/Second |\n`;
+    markdown += `| ------- | ---------- |\n`;
 
     for (const result of results) {
       const runtimeName =
         result.runtime.charAt(0).toUpperCase() + result.runtime.slice(1);
-      markdown += `| ${runtimeName} | ${result.partTwo.minMs} | ${result.partTwo.p50Ms} | ${result.partTwo.p75Ms} | ${result.partTwo.p99Ms} | ${result.partTwo.maxMs} |\n`;
+      markdown += `| ${runtimeName} | ${result.partTwo.opsPerSecond} |\n`;
     }
 
     markdown += `\n`;
