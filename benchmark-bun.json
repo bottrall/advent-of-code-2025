@@ -1,6 +1,6 @@
 {
   "runtime": "bun",
-  "lastUpdated": "2025-12-15T01:39:00.886Z",
+  "lastUpdated": "2025-12-15T04:57:47.655Z",
   "durationSeconds": 60,
   "results": [
     {
@@ -111,6 +111,16 @@
       },
       "partTwo": {
         "opsPerSecond": 4259.26
+      }
+    },
+    {
+      "day": "day-12",
+      "runtime": "bun",
+      "partOne": {
+        "opsPerSecond": 2.49
+      },
+      "partTwo": {
+        "opsPerSecond": 23592554.45
       }
     }
   ]

@@ -1,6 +1,6 @@
 {
   "runtime": "deno",
-  "lastUpdated": "2025-12-15T01:41:01.059Z",
+  "lastUpdated": "2025-12-15T04:59:49.343Z",
   "durationSeconds": 60,
   "results": [
     {
@@ -111,6 +111,16 @@
       },
       "partTwo": {
         "opsPerSecond": 3213.37
+      }
+    },
+    {
+      "day": "day-12",
+      "runtime": "deno",
+      "partOne": {
+        "opsPerSecond": 0.62
+      },
+      "partTwo": {
+        "opsPerSecond": 7973711.28
       }
     }
   ]
